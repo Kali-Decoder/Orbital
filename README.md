@@ -62,7 +62,7 @@ npx hardhat ignition deploy ignition/modules/Escrow.ts --network galileo
 
 After deploying, set `ESCROW_ADDRESS` in `frontend/lib/contract.ts` to the address from `ignition/deployments/.../deployed_addresses.json`.
 
-Current testnet deployment: `0x07fa68F188B90169C88Fda35Dee2eDFda7Bb75Ee` (verify on [Chainscan](https://chainscan-galileo.0g.ai/address/0x07fa68F188B90169C88Fda35Dee2eDFda7Bb75Ee)).
+Current testnet deployment: `0x5E6658ac6cBC9b0109C28BED00bC4Af0F0A3f1CD` (verify on [Chainscan](https://chainscan-galileo.0g.ai/address/0x5E6658ac6cBC9b0109C28BED00bC4Af0F0A3f1CD)).
 
 ### Frontend (`frontend/`)
 
@@ -82,7 +82,7 @@ Required environment variables (`frontend/.env.local`, never committed):
 | `RESEARCH_AGENT_KEY` / `ANALYSIS_AGENT_KEY` / `WRITER_AGENT_KEY` | Per-agent Terminal 3 keys |
 | `GROQ_API_KEY` | Groq API key used to run the agent pipeline (`llama-3.3-70b-versatile`) |
 
-Open [http://localhost:3000](http://localhost:3000) for the landing page, or `/app` for Mission Control (goal input, agent pipeline, on-chain ledger).
+Open [http://localhost:3000](http://localhost:3000) for the landing page, `/app` for Mission Control, or `/docs` for product documentation (agents, addresses, network).
 
 Connect a wallet on **0G Galileo Testnet** before escrowing funds or interacting with the contract.
 
