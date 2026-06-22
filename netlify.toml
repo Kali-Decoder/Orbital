@@ -1,6 +1,8 @@
+# Netlify UI: Base directory = frontend, Publish directory = LEAVE EMPTY
 [build]
   base = "frontend"
   command = "pnpm run build"
+  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
