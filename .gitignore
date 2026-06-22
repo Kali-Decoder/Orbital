@@ -1,0 +1,9 @@
+# Editor / IDE
+.claude/settings.local.json
+.vscode/
+.DS_Store
+
+# Env files (per-package .gitignore also covers these, kept here as a backstop)
+.env
+.env.*
+!.env.example
