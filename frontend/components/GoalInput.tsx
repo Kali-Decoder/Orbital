@@ -5,13 +5,14 @@ import ReactMarkdown from "react-markdown";
 import { useWriteContract } from "wagmi";
 import { readContract } from "wagmi/actions";
 import { parseEther } from "viem";
-import { ESCROW_ABI, ESCROW_ADDRESS } from "@/lib/contract";
+import { ESCROW_ABI, ESCROW_ADDRESS, ESCROW_AMOUNT_PER_TASK_OG } from "@/lib/contract";
 import { AGENTS } from "@/lib/agents";
 import { txExplorerUrl } from "@/lib/chain";
 import { waitForGalileoReceipt } from "@/lib/wait-for-receipt";
 import { config } from "@/lib/wagmi";
 import { MissionTimeline } from "@/components/MissionTimeline";
 import { downloadReport, type ExportFormat } from "@/lib/export-report";
+import { MissionInvoice } from "@/components/MissionInvoice";
 
 type AgentStatus =
   | "pending"
@@ -34,6 +35,7 @@ type AgentTask = {
   errorMessage?: string;
   markCompleteHash?: `0x${string}`;
   markCompleteError?: string;
+  escrowAmountOg?: string;
 };
 
 // Mocked orchestrator logic: splits a goal into one sub-task per agent.
@@ -193,9 +195,13 @@ function GoalInputInner() {
           abi: ESCROW_ABI,
           functionName: "createTask",
           args: [task.agent.address, did],
-          value: parseEther("0.00001"),
+          value: parseEther(ESCROW_AMOUNT_PER_TASK_OG),
         });
-        update(i, { txHash, status: "hiring-confirm" });
+        update(i, {
+          txHash,
+          status: "hiring-confirm",
+          escrowAmountOg: ESCROW_AMOUNT_PER_TASK_OG,
+        });
 
         await waitForGalileoReceipt(txHash);
 
@@ -417,6 +423,7 @@ function GoalInputInner() {
               </div>
             </div>
           ))}
+          <MissionInvoice tasks={tasks} />
         </div>
       )}
     </div>

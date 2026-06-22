@@ -1,9 +1,8 @@
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { buildInvoiceText, type InvoiceTask } from "@/lib/invoice";
 
-type ReportTask = {
-  agent: { name: string };
-  did?: string;
+type ReportTask = InvoiceTask & {
   output?: string;
 };
 
@@ -40,7 +39,9 @@ export function buildReportText(goal: string, tasks: ReportTask[]): string {
     ].join("\n")
   );
 
-  return `${header}${sections.join("\n")}`.trimEnd() + "\n";
+  const invoice = buildInvoiceText(tasks);
+
+  return `${header}${sections.join("\n")}\n${invoice}`.trimEnd() + "\n";
 }
 
 function downloadBlob(blob: Blob, filename: string) {

@@ -1,5 +1,8 @@
 export const ESCROW_ADDRESS = "0x5E6658ac6cBC9b0109C28BED00bC4Af0F0A3f1CD";
 
+/** Native 0G locked per agent hire in createTask. */
+export const ESCROW_AMOUNT_PER_TASK_OG = "0.00001";
+
 export const ESCROW_ABI = [
   {
     type: "function",
