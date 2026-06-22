@@ -1,0 +1,434 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Mission control palette — stored as space-separated RGB so Tailwind's
+     color-opacity modifiers (e.g. bg-cyan/10) work against them. */
+  --color-bg: 8 12 16;
+  --color-surface: 13 17 23;
+  --color-line: 28 42 58;
+  --color-cyan: 0 217 255;
+  --color-success: 0 255 148;
+  --color-warning: 255 184 0;
+  --color-danger: 255 69 96;
+  --color-ink: 230 237 243;
+  --color-muted: 125 143 163;
+}
+
+html {
+  height: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--color-bg));
+  color: rgb(var(--color-ink));
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+html {
+  color-scheme: dark;
+}
+
+/* Signature element: a faint coordinate-grid texture that breathes slowly,
+   like a radar sweep. Pure CSS — two 1px line gradients, masked to a soft
+   radial vignette so it fades out at the edges instead of tiling visibly. */
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(var(--color-line) / 0.7) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--color-line) / 0.7) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, black 35%, transparent 85%);
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, black 35%, transparent 85%);
+  animation: grid-pulse 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s steps(1) infinite;
+}
+
+/* Landing page animations */
+@keyframes landing-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.landing-fade-in {
+  opacity: 0;
+  animation: landing-fade-in 0.8s ease-out forwards;
+}
+
+@keyframes hero-glow-drift {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate(-48%, -52%) scale(1.08);
+    opacity: 0.55;
+  }
+}
+
+.hero-glow {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: min(90vw, 640px);
+  height: min(90vw, 640px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(var(--color-cyan) / 0.14) 0%, transparent 68%);
+  animation: hero-glow-drift 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes scan-sweep {
+  0% {
+    top: -2px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.6;
+  }
+  92% {
+    opacity: 0.6;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--color-cyan) / 0.15) 20%,
+    rgb(var(--color-cyan) / 0.7) 50%,
+    rgb(var(--color-cyan) / 0.15) 80%,
+    transparent
+  );
+  box-shadow: 0 0 20px rgb(var(--color-cyan) / 0.35);
+  animation: scan-sweep 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes float-node {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(-22px) scale(1.15);
+    opacity: 0.7;
+  }
+}
+
+.floating-node {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgb(var(--color-cyan));
+  box-shadow: 0 0 10px rgb(var(--color-cyan) / 0.8);
+  animation: float-node ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    box-shadow: 0 0 6px rgb(var(--color-cyan) / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 16px rgb(var(--color-cyan) / 0.9), 0 0 28px rgb(var(--color-cyan) / 0.35);
+  }
+}
+
+.logo-pulse {
+  animation: logo-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes badge-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgb(var(--color-cyan) / 0);
+  }
+  50% {
+    box-shadow: 0 0 14px rgb(var(--color-cyan) / 0.12);
+  }
+}
+
+.badge-glow {
+  animation: badge-glow 3s ease-in-out infinite;
+}
+
+@keyframes scroll-hint {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.scroll-hint {
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
+.text-glow {
+  text-shadow: 0 0 24px rgb(var(--color-cyan) / 0.45);
+}
+
+.cta-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgb(255 255 255 / 0.25) 50%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+
+.cta-shimmer:hover::after {
+  transform: translateX(120%);
+}
+
+.step-card {
+  animation-fill-mode: both;
+}
+
+/* Agent architecture diagram */
+@keyframes data-packet-run {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 6px);
+    opacity: 0;
+  }
+}
+
+.data-packet-run {
+  animation: data-packet-run 1.4s ease-in-out infinite;
+}
+
+@keyframes agent-node-ring {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+.agent-node-ring {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgb(var(--color-cyan) / 0.5);
+  pointer-events: none;
+  animation: agent-node-ring 2s ease-in-out infinite;
+}
+
+@keyframes escrow-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+.escrow-pulse {
+  animation: escrow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes roster-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.08;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.roster-scan {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(var(--color-cyan) / 0.15),
+    transparent
+  );
+  animation: roster-scan 4s ease-in-out infinite;
+}
+
+@keyframes roster-dot {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgb(var(--color-cyan) / 0.8);
+  }
+}
+
+.roster-dot {
+  animation: roster-dot 2.5s ease-in-out infinite;
+}
+
+.roster-card:hover .roster-scan {
+  animation-duration: 2s;
+}
+
+.pipeline-track {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--color-line)),
+    rgb(var(--color-cyan) / 0.3),
+    rgb(var(--color-line))
+  );
+  background-size: 200% 100%;
+  animation: pipeline-march 2s linear infinite;
+}
+
+@keyframes pipeline-march {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-fade-in,
+  .hero-glow,
+  .scan-line,
+  .floating-node,
+  .logo-pulse,
+  .badge-glow,
+  .scroll-hint,
+  .grid-bg,
+  .data-packet-run,
+  .agent-node-ring,
+  .escrow-pulse,
+  .roster-scan,
+  .roster-dot,
+  .pipeline-track {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .headline-cycle {
+    transition: none !important;
+  }
+}
+
+/* Markdown output inside agent terminal boxes — keep it monospace and on
+   the mission-control palette instead of default browser styling. */
+.agent-output-content {
+  font-family: var(--font-mono), monospace;
+  color: rgb(var(--color-ink));
+}
+
+.agent-output-content > *:first-child {
+  margin-top: 0;
+}
+
+.agent-output-content p {
+  margin-bottom: 0.5em;
+}
+
+.agent-output-content strong {
+  color: rgb(var(--color-cyan));
+  font-weight: 400;
+}
+
+.agent-output-content ul,
+.agent-output-content ol {
+  padding-left: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.agent-output-content li {
+  margin-bottom: 0.25em;
+}
+
+.agent-output-content h1,
+.agent-output-content h2,
+.agent-output-content h3 {
+  font-size: 1.05em;
+  color: rgb(var(--color-cyan));
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+}
