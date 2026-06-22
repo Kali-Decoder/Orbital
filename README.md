@@ -102,4 +102,4 @@ User wallet (Galileo)
 - [0G testnet docs](https://docs.0g.ai/developer-hub/testnet/testnet-overview)
 - [0G testnet faucet](https://faucet.0g.ai)
 - [Galileo block explorer](https://chainscan-galileo.0g.ai)
-# Orbital
+
