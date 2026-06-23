@@ -9,15 +9,22 @@ const PENDING_RECEIPT_PATTERNS = [
   "not found",
 ];
 
-function isPendingReceiptError(error: unknown): boolean {
-  const message =
-    error && typeof error === "object" && "shortMessage" in error
-      ? String((error as { shortMessage: unknown }).shortMessage)
-      : error instanceof Error
-        ? error.message
-        : String(error);
+function extractErrorMessage(error: unknown): string {
+  if (error && typeof error === "object") {
+    const e = error as Record<string, unknown>;
+    const parts = [
+      e.shortMessage,
+      e.details,
+      error instanceof Error ? error.message : null,
+      e.cause ? extractErrorMessage(e.cause) : null,
+    ].filter(Boolean);
+    if (parts.length > 0) return parts.map(String).join(" ");
+  }
+  return error instanceof Error ? error.message : String(error);
+}
 
-  const lower = message.toLowerCase();
+function isPendingReceiptError(error: unknown): boolean {
+  const lower = extractErrorMessage(error).toLowerCase();
   return PENDING_RECEIPT_PATTERNS.some((pattern) => lower.includes(pattern));
 }
 
